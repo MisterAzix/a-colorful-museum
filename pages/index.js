@@ -1,8 +1,41 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+
+const marqueeVariants = {
+    animateLeft: {
+        y: [0, -404],
+        rotate: 180,
+        transition: {
+            y: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 5,
+                ease: "linear",
+            },
+        },
+    },
+    animateRight: {
+        y: [-404, 0],
+        transition: {
+            y: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 5,
+                ease: "linear",
+            },
+        },
+    },
+};
 
 export default function Home() {
     return <Grid>
-        <MarqueeLeftContainer><MarqueeLeft>start experience - start experience - start experience</MarqueeLeft></MarqueeLeftContainer>
+        <MarqueeLeft><motion.span
+            className="track"
+            variants={marqueeVariants}
+            animate="animateLeft"
+        >
+            start experience - start experience - start experience - start experience - start experience
+        </motion.span></MarqueeLeft>
         <Top />
         <Content>
             <Button>start experience</Button>
@@ -13,9 +46,15 @@ export default function Home() {
             </Info>
         </Content>
         <Bottom>
-            <Copyright>Made by <Link target="_blank" href="https://github.com/MisterAzix">Maxence B.</Link> - <Link target="_blank" href="https://www.behance.net/anaismancho">Anaïs M.</Link> - <Link target="_blank" href="https://linktr.ee/Gaetan_Jestin">Gaëtan J.</Link></Copyright>
+            <Copyright>Made by <a target="_blank" href="https://github.com/MisterAzix">Maxence B.</a> - <a target="_blank" href="https://www.behance.net/anaismancho">Anaïs M.</a> - <a target="_blank" href="https://linktr.ee/Gaetan_Jestin">Gaëtan J.</a></Copyright>
         </Bottom>
-        <MarqueeRightContainer><MarqueeRight>start experience - start experience - start experience</MarqueeRight></MarqueeRightContainer>
+        <MarqueeRight><motion.span
+            className="track"
+            variants={marqueeVariants}
+            animate="animateRight"
+        >
+            start experience - start experience - start experience - start experience - start experience
+        </motion.span></MarqueeRight>
     </Grid>
 }
 
@@ -32,35 +71,36 @@ const Grid = styled.div`
     text-align: center;
 `;
 
-const MarqueeLeftContainer = styled.div`
+const Marquee = styled.div`
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+
+    span {
+        font-size: 3rem;
+        writing-mode: vertical-lr;
+        white-space: nowrap;
+        font-family: 'Ammonite', sans-serif;
+        position: absolute;
+        will-change: transform;
+        user-select: none;
+    }
+`;
+
+const MarqueeLeft = styled(Marquee)`
     grid-area: marqueeL;
-    overflow: hidden;
     border-right: 1px solid var(--text-color);
-    display: flex;
-    justify-content: center;
+
+    span {
+        transform: rotate(180deg);
+    }
 `;
 
-const MarqueeRightContainer = styled.div`
+const MarqueeRight = styled(Marquee)`
     grid-area: marqueeR;
-    overflow: hidden;
     border-left: 1px solid var(--text-color);
-    display: flex;
-    justify-content: center;
-`;
-
-const MarqueeLeft = styled.div`
-    font-size: 3rem;
-    writing-mode: vertical-lr;
-    transform: rotate(180deg);
-    white-space: nowrap;
-    font-family: 'Ammonite', sans-serif;
-`;
-
-const MarqueeRight = styled.div`
-    font-size: 3rem;
-    writing-mode: vertical-lr;
-    white-space: nowrap;
-    font-family: 'Ammonite', sans-serif;
 `;
 
 const Top = styled.div`
@@ -113,8 +153,8 @@ const Info = styled.p`
 const Copyright = styled.div`
     grid-area: copyright;
     font-size: 1.1rem;
-`;
 
-const Link = styled.a`
-    color: var(--text-color);
+    a {
+        color: var(--text-color);
+    }
 `;
