@@ -32,6 +32,9 @@ export default class MyDocument extends Document {
         return (
             <Html>
                 <Head>
+                    <title>A Colorful Museum</title>
+                    <meta name="description" content="Welcome to an amazing experience ! You’re gonna join a colorfull world with amazing artwork. Everything is B&W but enable filter and discover the real aspect of the art." />
+
                     <link href="http://fonts.cdnfonts.com/css/code-new-roman" rel="stylesheet" />
                     <link href="http://fonts.cdnfonts.com/css/ammonite" rel="stylesheet" />
                 </Head>
