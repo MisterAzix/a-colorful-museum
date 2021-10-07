@@ -1,18 +1,22 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const marqueeVariants = {
     animateLeft: {
         y: [0, -404],
-        rotate: 180,
+        rotateZ: 180,
         transition: {
             y: {
                 repeat: Infinity,
                 repeatType: "loop",
                 duration: 5,
-                ease: "linear",
+                ease: "linear"
             },
-        },
+            rotateZ: {
+                duration: 0,
+            }
+        }
     },
     animateRight: {
         y: [-404, 0],
@@ -38,7 +42,7 @@ export default function Home() {
         </motion.span></MarqueeLeft>
         <Top />
         <Content>
-            <Button>start experience</Button>
+            <Link href="/artwork" passHref><Button>start experience</Button></Link>
             <Info>
                 Welcome to an amazing experience ! You’re gonna join a colorfull world with amazing artwork. Everything is B&W but enable filter and discover the real aspect of the art.
                 <br /><br /> - <br /><br />
