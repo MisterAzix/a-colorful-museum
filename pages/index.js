@@ -12,7 +12,9 @@ export default function Home() {
                 Once within the website, you will be able to test some filters on yourself, simply use your webcam to upload a picture of you and then apply a filter to it !
             </Info>
         </Content>
-        <Bottom><Copyright>Made by Maxence B. - Anaïs M. - Gaëtan J.</Copyright></Bottom>
+        <Bottom>
+            <Copyright>Made by <Link target="_blank" href="https://github.com/MisterAzix">Maxence B.</Link> - <Link target="_blank" href="https://www.behance.net/anaismancho">Anaïs M.</Link> - <Link target="_blank" href="https://linktr.ee/Gaetan_Jestin">Gaëtan J.</Link></Copyright>
+        </Bottom>
         <MarqueeRightContainer><MarqueeRight>start experience - start experience - start experience</MarqueeRight></MarqueeRightContainer>
     </Grid>
 }
@@ -111,4 +113,8 @@ const Info = styled.p`
 const Copyright = styled.div`
     grid-area: copyright;
     font-size: 1.1rem;
+`;
+
+const Link = styled.a`
+    color: var(--text-color);
 `;
