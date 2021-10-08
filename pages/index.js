@@ -73,6 +73,14 @@ const Grid = styled.div`
         "marqueeL content marqueeR"
         "marqueeL bottom marqueeR";
     text-align: center;
+
+    @media screen and (max-width: 1100px) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "top"
+            "content"
+            "bottom";
+    }
 `;
 
 const Marquee = styled.div`
@@ -81,6 +89,10 @@ const Marquee = styled.div`
     display: flex;
     justify-content: center;
     cursor: pointer;
+
+    @media screen and (max-width: 1100px) {
+        display: none;
+    }
 
     span {
         font-size: 3rem;
@@ -120,7 +132,7 @@ const Bottom = styled.div`
     align-items: center;
 `;
 
-const Content = styled.p`
+const Content = styled.div`
     grid-area: content;
     font-size: 1.1rem;
     display: flex;
@@ -136,7 +148,7 @@ const Button = styled.button`
     outline: none;
     cursor: pointer;
     color: var(--text-color);
-    padding: 24px 48px;
+    padding: 1.5rem 3rem;
     margin: 64px 32px 32px;
     font-size: 3rem;
     transition: background-color 0.3s ease, color 0.3s ease;

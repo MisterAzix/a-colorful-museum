@@ -15,10 +15,21 @@ const GlobalStyle = createGlobalStyle`
         --text-color: #FFFFFF;
     }
 
-    body {
+    html {
+        font-size: 16px;
+
+        @media screen and (max-width: 480px) {
+            font-size: 14px;
+        }
+    }
+
+    * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+    body {
         background-color: #212121;
         color: #FFFFFF;
         font-family: 'Code New Roman', sans-serif;
