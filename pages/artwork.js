@@ -142,11 +142,6 @@ const Title = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    h1 {
-        font-size: 3rem;
-        margin: 0;
-    }
 `;
 
 const ContentLeft = styled.div`

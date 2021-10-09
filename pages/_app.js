@@ -48,4 +48,16 @@ const GlobalStyle = createGlobalStyle`
     h1, h2, h3, button {
         font-family: 'Ammonite', sans-serif;
     }
+
+    h1 {
+        font-size: 3.052rem;
+    }
+    
+    h2 {
+        font-size: 2.441rem;
+    }
+
+    h3 {
+        font-size: 1.953rem;
+    }
 `;
