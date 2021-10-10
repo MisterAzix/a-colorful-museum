@@ -32,8 +32,8 @@ export default class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <link rel="stylesheet" href="http://fonts.cdnfonts.com/css/code-new-roman" />
-                    <link rel="stylesheet" href="http://fonts.cdnfonts.com/css/ammonite" />
+                    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/code-new-roman" />
+                    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ammonite" />
                 </Head>
                 <body>
                     <Main />
