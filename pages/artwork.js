@@ -53,6 +53,9 @@ export default function Artwork() {
                 <br /><br />If you want so, you can actually contemplate this painting in Paris, at the National Museum of Modern Art in the Pompidou Center.
             </p>
         </ContentRight>
+        <ContentBottomRight>
+            <Button>enable filter</Button>
+        </ContentBottomRight>
         <Bottom>
             <div>
                 <span></span>
@@ -105,12 +108,15 @@ const Grid = styled.div`
     height: 100vh;
     max-width: 100vw;
     max-height: 100vh;
-    grid-template-rows: 6rem calc(100vh - 6rem * 2) 6rem;
+    text-align: center;
+    grid-template-rows: 6rem calc(50vh - 6rem * 2) 25vh 25vh 6rem;
     grid-template-columns: 6rem min-content 1fr 6rem;
     grid-template-areas:
         "marqueeL top top marqueeR"
         "marqueeL contentLeft contentRight marqueeR"
-        "marqueeL bottom contentRight marqueeR";
+        "marqueeL contentLeft contentRight marqueeR"
+        "marqueeL contentLeft contentBottomRight marqueeR"
+        "marqueeL bottom contentBottomRight marqueeR";
 
     @media screen and (max-width: 1100px) {
         grid-template-rows: 6rem calc(100vh - 6rem * 2) 6rem calc(100vh - 6rem * 2) 6rem;
@@ -118,7 +124,7 @@ const Grid = styled.div`
         grid-template-areas:
             "top"
             "contentLeft"
-            "marqueeR"
+            "contentBottomRight"
             "contentRight"
             "bottom";
     }
@@ -141,7 +147,7 @@ const Marquee = styled.div`
         user-select: none;
 
         @media screen and (max-width: 1100px) {
-            writing-mode: horizontal-tb;
+            display: none;
         }
     }
 `;
@@ -149,10 +155,6 @@ const Marquee = styled.div`
 const MarqueeLeft = styled(Marquee)`
     grid-area: marqueeL;
     border: 1px solid var(--text-color);
-
-    @media screen and (max-width: 1100px) {
-        display: none;
-    }
 
     span {
         transform: rotate(180deg);
@@ -197,6 +199,35 @@ const ContentRight = styled.div`
     grid-area: contentRight;
     border: 1px solid var(--text-color);
     padding: 2rem;
+    text-align: left;
+    overflow: scroll;
+`;
+
+const ContentBottomRight = styled.div`
+    grid-area: contentBottomRight;
+    text-align: left;
+    border: 1px solid var(--text-color);
+`;
+
+const Button = styled.button`
+    border: 1px solid var(--text-color);
+    background: none;
+    outline: none;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 1.5rem 3rem;
+    font-size: 3rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    @media screen and (max-width: 1100px) {
+        width: 100%;
+        border: none;
+    }
+
+    &:hover {
+        background-color: var(--text-color);
+        color: var(--background-color);
+    }
 `;
 
 const Bottom = styled.div`

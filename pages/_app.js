@@ -4,6 +4,10 @@ import { createGlobalStyle } from 'styled-components';
 export default function App({ Component, pageProps }) {
     return (
         <>
+            <Head>
+                <title>A Colorful Museum</title>
+                <meta name="description" content="Welcome to a wonderful experience ! You’re gonna join a colorful world illustred with some amazing artwork. Everything is B&W but click the enable filter button and discover the real power of colors in art." />
+            </Head>
             <GlobalStyle />
             <Component {...pageProps} />
         </>
