@@ -8,7 +8,8 @@ import Marquee from '../components/Marquee';
 export default function Artwork() {
     const artworkData = [
         {
-            title: 'The scream',
+            title: 'orange',
+            name: 'The scream',
             author: 'EDWARD MUNCH',
             image: '/edward-munch.jpg',
             color: '#C37C3A',
@@ -21,7 +22,8 @@ export default function Artwork() {
             based on Munch's actual experience of a scream piercing through`
         },
         {
-            title: 'The death of the virgin',
+            title: 'red',
+            name: 'The death of the virgin',
             author: 'CARAVAGGIO',
             image: '/caravaggio.jpg',
             color: '#A02524',
@@ -34,7 +36,8 @@ export default function Artwork() {
             The blood-red theatrical drape hangs in the upper portion of the canvas,`
         },
         {
-            title: 'Young lady with gloves',
+            title: 'green',
+            name: 'Young lady with gloves',
             author: 'TAMARA DE LEMPICKA',
             image: '/tamara-de-empicka.jpg',
             color: '#50A760',
@@ -46,7 +49,8 @@ export default function Artwork() {
             Her hand position, posture and facial expression are made to accentuate her luxurious and`
         },
         {
-            title: 'Girl with a pearl earring',
+            title: 'blue',
+            name: 'Girl with a pearl earring',
             author: 'JOHANESS VERMEER',
             image: '/johaness-vermeer.jpg',
             color: '#7091C0',
@@ -57,7 +61,8 @@ export default function Artwork() {
             The woman portrayed here is a young European girl, wearing an oriental`
         },
         {
-            title: 'Vase with twelve sunflowers',
+            title: 'yellow',
+            name: 'Vase with twelve sunflowers',
             author: 'VINCENT VAN GOGH',
             image: '/vincent-van-gogh.jpg',
             color: '#D5AD48',
@@ -72,39 +77,56 @@ export default function Artwork() {
 
     const [index, incrementIndex] = useState(0);
     const [activePost, setActivePost] = useState();
+    const [filter, toggleFilter] = useState(false);
 
     useEffect(() => {
         setActivePost(artworkData[index]);
-        document.documentElement.style.setProperty('--text-color', '#212121');
-        document.documentElement.style.setProperty('--background-color', artworkData[index].color);
-        document.body.style.setProperty('color', '#212121');
-        document.body.style.setProperty('background-color', artworkData[index].color);
     }, [index]);
 
+    useEffect(() => {
+        if (filter) {
+            document.documentElement.style.setProperty('--text-color', '#212121');
+            document.documentElement.style.setProperty('--background-color', artworkData[index].color);
+            document.body.style.setProperty('color', '#212121');
+            document.body.style.setProperty('background-color', artworkData[index].color);
+        } else {
+            document.documentElement.style.removeProperty('--text-color');
+            document.documentElement.style.removeProperty('--background-color');
+            document.body.style.removeProperty('color');
+            document.body.style.removeProperty('background-color');
+        }
+    }, [filter])
+
     const handlePrevious = () => {
+        toggleFilter(false);
         incrementIndex((index - 1) % (artworkData.length) < 0 ? 4 : (index - 1) % (artworkData.length));
     }
 
     const handleNext = () => {
+        toggleFilter(false);
         incrementIndex((index + 1) % (artworkData.length));
+    }
+
+    const handleFilter = () => {
+        toggleFilter(!filter);
     }
 
     return <Grid color={activePost?.color}>
         <Marquee onClick={handlePrevious} display="left" y="-460">
             previous - previous - previous - previous - previous - previous - previous - previous
         </Marquee>
-        <Top><Link href="/" passHref><Title><h1>green</h1></Title></Link></Top>
-        <ContentLeft>
+        <Top><Link href="/" passHref><Title><h1>{activePost?.title}</h1></Title></Link></Top>
+        <ContentLeft filter={filter}>
             <img src={activePost?.image} />
         </ContentLeft>
         <ContentRight>
-            <h3>{activePost?.title}</h3>
+            <h3>{activePost?.name}</h3>
             <h4>{activePost?.author}</h4>
             <br />
             <p>{activePost?.content}</p>
         </ContentRight>
         <ContentBottomRight>
-            <Button>enable filter</Button>
+            <Button onClick={handleFilter}>{filter ? 'disable filter' : 'enable filter'}</Button>
         </ContentBottomRight>
         <Bottom>
             <div>
@@ -155,7 +177,6 @@ const Grid = styled.div`
     max-width: 100vw;
     max-height: 100vh;
     text-align: center;
-    background-color: ${props => props.color};
     grid-template-rows: 6rem calc(50vh - 6rem * 2) 25vh 25vh 6rem;
     grid-template-columns: 6rem min-content 1fr 6rem;
     grid-template-areas:
@@ -166,7 +187,7 @@ const Grid = styled.div`
         "marqueeL bottom contentBottomRight marqueeR";
 
     @media screen and (max-width: 1100px) {
-        grid-template-rows: 6rem calc(100vh - 6rem * 2) 6rem calc(100vh - 6rem * 2) 6rem;
+        grid-template-rows: 6rem calc(100vh - 6rem * 2) 6rem min-content 6rem;
         grid-template-columns: 1fr;
         grid-template-areas:
             "top"
@@ -204,13 +225,13 @@ const ContentLeft = styled.div`
     img {
         width: auto;
         height: 100%;
+        filter: ${props => !props.filter && 'grayscale()'};
     }
 `;
 
 const ContentRight = styled.div`
     grid-area: contentRight;
     border: 1px solid var(--text-color);
-    background-color: ${props => props.color};
     padding: 2rem;
     text-align: left;
     overflow: scroll;
@@ -220,7 +241,6 @@ const ContentBottomRight = styled.div`
     grid-area: contentBottomRight;
     text-align: left;
     border: 1px solid var(--text-color);
-    background-color: ${props => props.color};
 `;
 
 const Button = styled.button`
@@ -247,7 +267,6 @@ const Button = styled.button`
 const Bottom = styled.div`
     grid-area: bottom;
     border: 1px solid var(--text-color);
-    background-color: ${props => props.color};
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -268,5 +287,9 @@ const Bottom = styled.div`
     div:last-child {
         display: flex;
         gap: 1rem;
+
+        svg path {
+            fill: var(--text-color);
+        }
     }
 `;
