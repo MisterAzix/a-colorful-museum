@@ -5,9 +5,9 @@ import Marquee from '../components/Marquee';
 
 export default function Home() {
     return <Grid>
-        <Marquee display="left" y="-404">
+        <Link href="/artwork" passHref><Marquee display="left" y="-404">
             start experience - start experience - start experience - start experience - start experience
-        </Marquee>
+        </Marquee></Link>
         <Top />
         <Content>
             <Link href="/artwork" passHref><Button>start experience</Button></Link>
@@ -20,9 +20,9 @@ export default function Home() {
         <Bottom>
             <Copyright>Made by <a target="_blank" href="https://github.com/MisterAzix">Maxence B.</a> - <a target="_blank" href="https://www.behance.net/anaismancho">Anaïs M.</a> - <a target="_blank" href="https://linktr.ee/Gaetan_Jestin">Gaëtan J.</a></Copyright>
         </Bottom>
-        <Marquee display="right" y="-404">
+        <Link href="/artwork" passHref><Marquee display="right" y="-404">
             start experience - start experience - start experience - start experience - start experience
-        </Marquee>
+        </Marquee></Link>
     </Grid>
 }
 

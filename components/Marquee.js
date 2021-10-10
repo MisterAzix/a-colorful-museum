@@ -32,7 +32,7 @@ export default function Marquee({ children, ...props }) {
         },
     };
 
-    return <MarqueeDiv display={props.display}><motion.span
+    return <MarqueeDiv onClick={props.onClick} display={props.display}><motion.span
         variants={marqueeVariants}
         animate={props.display === "left" ? "animateLeft" : "animateRight"}
     >

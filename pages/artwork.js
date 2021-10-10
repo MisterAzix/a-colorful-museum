@@ -1,26 +1,107 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 import Marquee from '../components/Marquee';
 
 export default function Artwork() {
-    return <Grid>
-        <Marquee display="left" y="-460">
+    const artworkData = [
+        {
+            title: 'The scream',
+            author: 'EDWARD MUNCH',
+            image: '/edward-munch.jpg',
+            color: '#C37C3A',
+            content: `The Scream is the most famous painting by Edvard Munch, 
+            a Norwegian painter born on december 12nd of 1863 in Ådalsbruk, 
+            Norway. He painted this iconic image of modern art in 1893, 
+            as a part of a composition of four versions named The Scream of Nature. 
+            This version is the first publicly displayed, and perhaps the most recognizable of this composition. 
+            It’s a tempera on cardboard of 91 cm × 73.5 cm representing an autobiographical construction, 
+            based on Munch's actual experience of a scream piercing through`
+        },
+        {
+            title: 'The death of the virgin',
+            author: 'CARAVAGGIO',
+            image: '/caravaggio.jpg',
+            color: '#A02524',
+            content: `The Death of the Virgin is a painting by the Italian painter Michelangelo Merisi da Caravaggio, 
+            better known just as Caravaggio. Born on september 29th of 1571 in Milan, Italy, 
+            he is considered as one of the Baroque masters. He painted this sacred artwork around 1604. 
+            It’s an oil on canvas of 369 cm × 245 cm representing the scene of the death of Mary, 
+            almost at human scale. She is represented in the painting’s central theme, 
+            laying down in a bright red dress and surrounded by crying and overwhelmed people. 
+            The blood-red theatrical drape hangs in the upper portion of the canvas,`
+        },
+        {
+            title: 'Young lady with gloves',
+            author: 'TAMARA DE LEMPICKA',
+            image: '/tamara-de-empicka.jpg',
+            color: '#50A760',
+            content: `Young lady with gloves is a painting by Tamara DeLempicka, 
+            a Polish painter born on may 16th of 1898 in Varsovie. Real representative of the art deco movement, 
+            she painted this artwork between 1927 and 1930. It’s an oil on canvas of 61,5 × 45,5 cm, 
+            representing a portrait of an elegant blonde lady. Dressed with a classy green dress and many white accessories, 
+            all highlighted by the very neutral gray background. Her body’s details are extremely sharped. 
+            Her hand position, posture and facial expression are made to accentuate her luxurious and`
+        },
+        {
+            title: 'Girl with a pearl earring',
+            author: 'JOHANESS VERMEER',
+            image: '/johaness-vermeer.jpg',
+            color: '#7091C0',
+            content: `Girl with a pearl earring is an oil painting by Dutch Golden Age painter Johannes Vermeer, 
+            born on october 31st of 1632 in Delft, Holland. It’s been estimated that he painted this portrait around 1665. 
+            It’s an oil on canvas of 44.5 cm × 39 cm representing a young woman with the tronie technique : 
+            the Dutch 17th-century description of a personnage representation, that wasn’t meant to be a portrait. 
+            The woman portrayed here is a young European girl, wearing an oriental`
+        },
+        {
+            title: 'Vase with twelve sunflowers',
+            author: 'VINCENT VAN GOGH',
+            image: '/vincent-van-gogh.jpg',
+            color: '#D5AD48',
+            content: `Vase with twelve sunflowers is a painting by the famous Dutch painter Vincent Van Gogh, 
+            born on march 30th of 1853 in Zundert, Netherlands. 
+            Real Post-Impressionist painter and contributor to the foundations of modern art, 
+            he is known for having an astonishing fascination with sunflowers, and his still life representations of it. 
+            Indeed, this painting is part of his second series of sunflowers representations : 
+            The Arles Sunflowers, made in august 1888, succeeding The Paris Sunflowers, made two years before.`
+        }
+    ];
+
+    const [index, incrementIndex] = useState(0);
+    const [activePost, setActivePost] = useState();
+
+    useEffect(() => {
+        setActivePost(artworkData[index]);
+        document.documentElement.style.setProperty('--text-color', '#212121');
+        document.documentElement.style.setProperty('--background-color', artworkData[index].color);
+        document.body.style.setProperty('color', '#212121');
+        document.body.style.setProperty('background-color', artworkData[index].color);
+    }, [index]);
+
+    const handlePrevious = () => {
+        incrementIndex((index - 1) % (artworkData.length) < 0 ? 4 : (index - 1) % (artworkData.length));
+    }
+
+    const handleNext = () => {
+        incrementIndex((index + 1) % (artworkData.length));
+    }
+
+    return <Grid color={activePost?.color}>
+        <Marquee onClick={handlePrevious} display="left" y="-460">
             previous - previous - previous - previous - previous - previous - previous - previous
         </Marquee>
-        <Top><Title><h1>green</h1></Title></Top>
+        <Top><Link href="/" passHref><Title><h1>green</h1></Title></Link></Top>
         <ContentLeft>
-            <img src="/tamara-de-empicka.jpg" />
+            <img src={activePost?.image} />
         </ContentLeft>
         <ContentRight>
-            <h3>Young lady with gloves</h3>
-            <h4>TAMARA DE LEMPICKA</h4>
+            <h3>{activePost?.title}</h3>
+            <h4>{activePost?.author}</h4>
             <br />
-            <p>
-                Young lady with gloves is a painting by Tamara DeLempicka, a Polish painter born on may 16th of 1898 in Varsovie. Real representative of the art deco movement, she painted this artwork between 1927 and 1930.
-                <br /><br />It’s an oil on canvas of 61,5 × 45,5 cm, representing a portrait of an elegant blonde lady. Dressed with a classy green dress and many white accessories, all highlighted by the very neutral gray background. Her body’s details are extremely sharped. Her hand position, posture and facial expression are made to accentuate her luxurious and sumptuous aura. The sharp-edged form (inspired by neo-cubism) combined with the bold use of colour green render a strongly dimensional and modern painting.
-                <br /><br />If you want so, you can actually contemplate this painting in Paris, at the National Museum of Modern Art in the Pompidou Center.
-            </p>
+            <p>{activePost?.content}</p>
         </ContentRight>
         <ContentBottomRight>
             <Button>enable filter</Button>
@@ -48,7 +129,7 @@ export default function Artwork() {
                 </svg>
             </div>
         </Bottom>
-        <Marquee display="right" y="-375">
+        <Marquee onClick={handleNext} display="right" y="-375">
             next - next - next - next - next - next - next - next - next - next - next - next - next
         </Marquee>
     </Grid>
@@ -74,6 +155,7 @@ const Grid = styled.div`
     max-width: 100vw;
     max-height: 100vh;
     text-align: center;
+    background-color: ${props => props.color};
     grid-template-rows: 6rem calc(50vh - 6rem * 2) 25vh 25vh 6rem;
     grid-template-columns: 6rem min-content 1fr 6rem;
     grid-template-areas:
@@ -109,6 +191,7 @@ const Title = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 `;
 
 const ContentLeft = styled.div`
@@ -127,6 +210,7 @@ const ContentLeft = styled.div`
 const ContentRight = styled.div`
     grid-area: contentRight;
     border: 1px solid var(--text-color);
+    background-color: ${props => props.color};
     padding: 2rem;
     text-align: left;
     overflow: scroll;
@@ -136,6 +220,7 @@ const ContentBottomRight = styled.div`
     grid-area: contentBottomRight;
     text-align: left;
     border: 1px solid var(--text-color);
+    background-color: ${props => props.color};
 `;
 
 const Button = styled.button`
@@ -162,6 +247,7 @@ const Button = styled.button`
 const Bottom = styled.div`
     grid-area: bottom;
     border: 1px solid var(--text-color);
+    background-color: ${props => props.color};
     display: flex;
     justify-content: space-between;
     align-items: center;
