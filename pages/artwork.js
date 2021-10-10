@@ -1,9 +1,30 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 import Marquee from '../components/Marquee';
+
+const variants = {
+    enter: (direction) => {
+        return {
+            x: direction > 0 ? 500 : -500,
+            opacity: 0
+        };
+    },
+    center: {
+        zIndex: 1,
+        x: 0,
+        opacity: 1
+    },
+    exit: (direction) => {
+        return {
+            zIndex: 0,
+            x: direction < 0 ? 500 : -500,
+            opacity: 0
+        };
+    }
+};
 
 export default function Artwork() {
     const artworkData = [
@@ -75,6 +96,7 @@ export default function Artwork() {
         }
     ];
 
+    const [direction, setDirection] = useState(1);
     const [index, incrementIndex] = useState(0);
     const [activePost, setActivePost] = useState();
     const [filter, toggleFilter] = useState(false);
@@ -98,11 +120,13 @@ export default function Artwork() {
     }, [filter])
 
     const handlePrevious = () => {
+        setDirection(-1);
         toggleFilter(false);
         incrementIndex((index - 1) % (artworkData.length) < 0 ? 4 : (index - 1) % (artworkData.length));
     }
 
     const handleNext = () => {
+        setDirection(1);
         toggleFilter(false);
         incrementIndex((index + 1) % (artworkData.length));
     }
@@ -111,50 +135,68 @@ export default function Artwork() {
         toggleFilter(!filter);
     }
 
-    return <Grid color={activePost?.color}>
-        <Marquee onClick={handlePrevious} display="left" y="-460">
-            previous - previous - previous - previous - previous - previous - previous - previous
-        </Marquee>
-        <Top><Link href="/" passHref><Title><h1>{activePost?.title}</h1></Title></Link></Top>
-        <ContentLeft filter={filter}>
-            <img src={activePost?.image} />
-        </ContentLeft>
-        <ContentRight>
-            <h3>{activePost?.name}</h3>
-            <h4>{activePost?.author}</h4>
-            <br />
-            <p>{activePost?.content}</p>
-        </ContentRight>
-        <ContentBottomRight>
-            <Button onClick={handleFilter}>{filter ? 'disable filter' : 'enable filter'}</Button>
-        </ContentBottomRight>
-        <Bottom>
-            <div>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
-                </svg>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
-                </svg>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
-                </svg>
-            </div>
-        </Bottom>
-        <Marquee onClick={handleNext} display="right" y="-375">
-            next - next - next - next - next - next - next - next - next - next - next - next - next
-        </Marquee>
-    </Grid>
+
+
+    return <AnimatePresence initial={true} custom={direction} exitBeforeEnter>
+        <motion.div
+            key={index}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 }
+            }}
+        >
+
+            <Grid color={activePost?.color}>
+                <Marquee onClick={handlePrevious} display="left" y="-460">
+                    previous - previous - previous - previous - previous - previous - previous - previous
+                </Marquee>
+                <Top><Link href="/" passHref><Title><h1>{activePost?.title}</h1></Title></Link></Top>
+                <ContentLeft activeFilter={filter}>
+                    <img src={activePost?.image} />
+                </ContentLeft>
+                <ContentRight>
+                    <h3>{activePost?.name}</h3>
+                    <h4>{activePost?.author}</h4>
+                    <br />
+                    <p>{activePost?.content}</p>
+                </ContentRight>
+                <ContentBottomRight>
+                    <Button onClick={handleFilter}>{filter ? 'disable filter' : 'enable filter'}</Button>
+                </ContentBottomRight>
+                <Bottom>
+                    <div>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div>
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
+                        </svg>
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
+                        </svg>
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
+                        </svg>
+                    </div>
+                </Bottom>
+                <Marquee onClick={handleNext} display="right" y="-375">
+                    next - next - next - next - next - next - next - next - next - next - next - next - next
+                </Marquee>
+            </Grid>
+        </motion.div>
+    </AnimatePresence>
 }
 
 function getSpanGradient() {
@@ -225,7 +267,7 @@ const ContentLeft = styled.div`
     img {
         width: auto;
         height: 100%;
-        filter: ${props => !props.filter && 'grayscale()'};
+        filter: ${props => !props.activeFilter && 'grayscale()'};
     }
 `;
 
