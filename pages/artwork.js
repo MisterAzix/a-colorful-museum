@@ -1,44 +1,13 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-const marqueeVariants = {
-    animateLeft: {
-        y: [0, -460],
-        rotateZ: 180,
-        transition: {
-            y: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 5,
-                ease: "linear"
-            },
-            rotateZ: {
-                duration: 0,
-            }
-        }
-    },
-    animateRight: {
-        y: [-375, 0],
-        transition: {
-            y: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 5,
-                ease: "linear",
-            },
-        },
-    },
-};
+import Marquee from '../components/Marquee';
 
 export default function Artwork() {
     return <Grid>
-        <MarqueeLeft><motion.span
-            className="track"
-            variants={marqueeVariants}
-            animate="animateLeft"
-        >
+        <Marquee display="left" y="-460">
             previous - previous - previous - previous - previous - previous - previous - previous
-        </motion.span></MarqueeLeft>
+        </Marquee>
         <Top><Title><h1>green</h1></Title></Top>
         <ContentLeft>
             <img src="/tamara-de-empicka.jpg" />
@@ -79,13 +48,9 @@ export default function Artwork() {
                 </svg>
             </div>
         </Bottom>
-        <MarqueeRight><motion.span
-            className="track"
-            variants={marqueeVariants}
-            animate="animateRight"
-        >
+        <Marquee display="right" y="-375">
             next - next - next - next - next - next - next - next - next - next - next - next - next
-        </motion.span></MarqueeRight>
+        </Marquee>
     </Grid>
 }
 
@@ -128,42 +93,6 @@ const Grid = styled.div`
             "contentRight"
             "bottom";
     }
-`;
-
-const Marquee = styled.div`
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-
-    span {
-        font-size: 3rem;
-        writing-mode: vertical-lr;
-        white-space: nowrap;
-        font-family: 'Ammonite', sans-serif;
-        position: absolute;
-        will-change: transform;
-        user-select: none;
-
-        @media screen and (max-width: 1100px) {
-            display: none;
-        }
-    }
-`;
-
-const MarqueeLeft = styled(Marquee)`
-    grid-area: marqueeL;
-    border: 1px solid var(--text-color);
-
-    span {
-        transform: rotate(180deg);
-    }
-`;
-
-const MarqueeRight = styled(Marquee)`
-    grid-area: marqueeR;
-    border: 1px solid var(--text-color);
 `;
 
 const Top = styled.div`
