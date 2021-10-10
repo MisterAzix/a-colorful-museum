@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 const marqueeVariants = {
@@ -50,7 +50,29 @@ export default function Artwork() {
                 <br /><br />If you want so, you can actually contemplate this painting in Paris, at the National Museum of Modern Art in the Pompidou Center.
             </p>
         </ContentRight>
-        <Bottom></Bottom>
+        <Bottom>
+            <div>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
+                </svg>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
+                </svg>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 0L16.8058 4.6208C17.7478 10.0224 21.9776 14.2522 27.3792 15.1942L32 16L27.3792 16.8058C21.9776 17.7478 17.7478 21.9776 16.8058 27.3792L16 32L15.1942 27.3792C14.2522 21.9776 10.0224 17.7478 4.6208 16.8058L0 16L4.6208 15.1942C10.0224 14.2522 14.2522 10.0224 15.1942 4.6208L16 0Z" fill="white" />
+                </svg>
+            </div>
+        </Bottom>
         <MarqueeRight><motion.span
             className="track"
             variants={marqueeVariants}
@@ -163,10 +185,43 @@ const ContentRight = styled.div`
     padding: 2rem;
 `;
 
+function template(i) {
+    return `
+        &:nth-child(${i + 1}) {
+            background-color: rgba(255, 255, 255, ${10 * i / 100});
+        }
+    `;
+}
+function getSpanGradient() {
+    let str = '';
+    for (let index = 0; index < 8; index++) {
+        str += template(index);
+    }
+    return str;
+}
+
 const Bottom = styled.div`
     grid-area: bottom;
     border: 1px solid var(--text-color);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 2rem;
+
+    div:first-child {
+        
+        span {
+            display: inline-block;
+            border: 1px solid var(--text-color);
+            height: 1.5rem;
+            width: 1.5rem;
+
+            ${getSpanGradient()}
+        }
+    }
+
+    div:last-child {
+        display: flex;
+        gap: 1rem;
+    }
 `;
