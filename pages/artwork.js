@@ -44,6 +44,9 @@ export default function Artwork() {
             <img src="/tamara-de-empicka.jpg" />
         </ContentLeft>
         <ContentRight>
+            <h3>Young lady with gloves</h3>
+            <h4>TAMARA DE LEMPICKA</h4>
+            <br />
             <p>
                 Young lady with gloves is a painting by Tamara DeLempicka, a Polish painter born on may 16th of 1898 in Varsovie. Real representative of the art deco movement, she painted this artwork between 1927 and 1930.
                 <br /><br />It’s an oil on canvas of 61,5 × 45,5 cm, representing a portrait of an elegant blonde lady. Dressed with a classy green dress and many white accessories, all highlighted by the very neutral gray background. Her body’s details are extremely sharped. Her hand position, posture and facial expression are made to accentuate her luxurious and sumptuous aura. The sharp-edged form (inspired by neo-cubism) combined with the bold use of colour green render a strongly dimensional and modern painting.
@@ -83,6 +86,18 @@ export default function Artwork() {
     </Grid>
 }
 
+function getSpanGradient() {
+    let str = '';
+    for (let i = 0; i < 8; i++) {
+        str += `
+            &:nth-child(${i + 1}) {
+                background-color: rgba(255, 255, 255, ${10 * i / 100});
+            }
+        `;
+    }
+    return str;
+}
+
 const Grid = styled.div`
     box-sizing: border-box;
     display: grid;
@@ -90,7 +105,6 @@ const Grid = styled.div`
     height: 100vh;
     max-width: 100vw;
     max-height: 100vh;
-    text-align: center;
     grid-template-rows: 6rem calc(100vh - 6rem * 2) 6rem;
     grid-template-columns: 6rem min-content 1fr 6rem;
     grid-template-areas:
@@ -184,21 +198,6 @@ const ContentRight = styled.div`
     border: 1px solid var(--text-color);
     padding: 2rem;
 `;
-
-function template(i) {
-    return `
-        &:nth-child(${i + 1}) {
-            background-color: rgba(255, 255, 255, ${10 * i / 100});
-        }
-    `;
-}
-function getSpanGradient() {
-    let str = '';
-    for (let index = 0; index < 8; index++) {
-        str += template(index);
-    }
-    return str;
-}
 
 const Bottom = styled.div`
     grid-area: bottom;

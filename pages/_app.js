@@ -1,4 +1,5 @@
-import { createGlobalStyle } from 'styled-components'
+import Head from 'next/head';
+import { createGlobalStyle } from 'styled-components';
 
 export default function App({ Component, pageProps }) {
     return (
@@ -45,7 +46,7 @@ const GlobalStyle = createGlobalStyle`
         overflow-x: hidden;
     }
     
-    h1, h2, h3, button {
+    h1, h2, button {
         font-family: 'Ammonite', sans-serif;
     }
 
@@ -58,6 +59,11 @@ const GlobalStyle = createGlobalStyle`
     }
 
     h3 {
-        font-size: 1.953rem;
+        font-size: 1.563rem;
+        font-style: italic;
+    }
+
+    h4 {
+        font-size: 1.563rem;
     }
 `;
