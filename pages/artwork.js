@@ -276,7 +276,7 @@ const ContentRight = styled.div`
     border: 1px solid var(--text-color);
     padding: 2rem;
     text-align: left;
-    overflow: scroll;
+    overflow-y: scroll;
 `;
 
 const ContentBottomRight = styled.div`
